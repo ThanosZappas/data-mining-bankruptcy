@@ -16,6 +16,7 @@ print(data.shape)
 # Initialize variables to store accuracies and confusion matrices
 accuracies = []
 confusion_matrices = []
+clf = HistGradientBoostingClassifier()
 
 # Start the timer
 start_time = time.time()
@@ -26,7 +27,6 @@ for _ in range(10):
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7)
 
     # Model Training
-    clf = HistGradientBoostingClassifier()
     clf.fit(X_train, y_train)
 
     # Make Predictions
@@ -72,11 +72,11 @@ y = data['X65']
 print(trimmed_data.shape)
 
 # Initialize variables to store accuracies and confusion matrices for trimmed data
-trimmed_accuracies = []
-trimmed_confusion_matrices = []
+accuracies = []
+confusion_matrices = []
 
 # Start the timer for trimmed data
-start_time_trimmed = time.time()
+start_time = time.time()
 
 # Perform 10 iterations for trimmed data
 for _ in range(10):
@@ -84,7 +84,6 @@ for _ in range(10):
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7)
 
     # Model Training
-    clf = HistGradientBoostingClassifier()
     clf.fit(X_train, y_train)
 
     # Make Predictions
@@ -92,24 +91,24 @@ for _ in range(10):
 
     # Calculate accuracy and confusion matrix on the test set
     accuracy = accuracy_score(y_test, y_pred)
-    trimmed_accuracies.append(accuracy)
-    trimmed_confusion_matrices.append(confusion_matrix(y_test, y_pred))
+    accuracies.append(accuracy)
+    confusion_matrices.append(confusion_matrix(y_test, y_pred))
 
 # End the timer for trimmed data
-end_time_trimmed = time.time()
+end_time = time.time()
 
 # Calculate mean and standard deviation of accuracies for trimmed data
-mean_accuracy_trimmed = np.mean(trimmed_accuracies)
-std_accuracy_trimmed = np.std(trimmed_accuracies)
+mean_accuracy = np.mean(accuracies)
+std_accuracy= np.std(accuracies)
 
 # Calculate mean confusion matrix for trimmed data
-mean_confusion_matrix_trimmed = np.mean(trimmed_confusion_matrices, axis=0)
+mean_confusion_matrix = np.mean(confusion_matrices, axis=0)
 
 # Calculate total execution time for trimmed data
-execution_time_trimmed = end_time_trimmed - start_time_trimmed
+execution_time = end_time - start_time
 
 # Print results for trimmed data
-print(f"Mean accuracy (trimmed data): {mean_accuracy_trimmed * 100:.2f}%")
-print(f"Standard deviation of accuracy (trimmed data): {std_accuracy_trimmed * 100:.2f}%")
-print("Mean Confusion Matrix (trimmed data):\n", mean_confusion_matrix_trimmed)
-print(f"Total execution time (trimmed data): {execution_time_trimmed:.2f} seconds")
+print(f"Mean accuracy (trimmed data): {mean_accuracy * 100:.2f}%")
+print(f"Standard deviation of accuracy (trimmed data): {std_accuracy * 100:.2f}%")
+print("Mean Confusion Matrix (trimmed data):\n", mean_confusion_matrix)
+print(f"Total execution time (trimmed data): {execution_time:.2f} seconds")
