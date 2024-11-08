@@ -1,48 +1,115 @@
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.inspection import permutation_importance
-from sklearn.preprocessing import StandardScaler
+import time
 
-# Step 2: Load Data
-
-# #default dataset
-# data = pd.read_csv('training_companydata.csv',na_values=['?'])
-# # Scale the Dataset
-# # Fill missing values temporarily to scale; use mean or median if needed
-# data_filled = data.fillna(data.mean())
-# scaler = StandardScaler()
-# scaled_data = scaler.fit_transform(data_filled)
-# scaled_data = pd.DataFrame(scaled_data, columns=data.columns)
-
-# Processed Dataset
+# Load Data
 data = pd.read_csv('updated_training_companydata.csv')
 
 X = data.drop(columns=['X65'])
 y = data['X65']
 print(data.shape)
-# Step 3: Train-Test Split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Step 4: Model Training
-# Initialize the HistGradientBoostingClassifier
-clf = HistGradientBoostingClassifier(random_state=42)
-clf.fit(X_train, y_train)
+# Initialize variables to store accuracies and confusion matrices
+accuracies = []
+confusion_matrices = []
 
-# Step 5: Make Predictions
-y_pred = clf.predict(X_test)
+# Start the timer
+start_time = time.time()
 
-# Step 6: Evaluate Model
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-print("Classification Report:\n", classification_report(y_test, y_pred))
+# Perform 10 iterations
+for _ in range(10):
+    # Train-Test Split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7)
 
-# Step 7: Feature Importance
-# Calculate permutation importance on the test set
-result = permutation_importance(clf, X_test, y_test, n_repeats=10, random_state=42, n_jobs=-1)
+    # Model Training
+    clf = HistGradientBoostingClassifier()
+    clf.fit(X_train, y_train)
 
-# Extract feature importance's and sort
+    # Make Predictions
+    y_pred = clf.predict(X_test)
+
+    # Calculate accuracy and confusion matrix on the test set
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracies.append(accuracy)
+    confusion_matrices.append(confusion_matrix(y_test, y_pred))
+
+# End the timer
+end_time = time.time()
+
+# Calculate mean and standard deviation of accuracies
+mean_accuracy = np.mean(accuracies)
+std_accuracy = np.std(accuracies)
+
+# Calculate mean confusion matrix
+mean_confusion_matrix = np.mean(confusion_matrices, axis=0)
+
+# Calculate total execution time
+execution_time = end_time - start_time
+
+# Print results
+print(f"Mean accuracy: {mean_accuracy * 100:.2f}%")
+print(f"Standard deviation of accuracy: {std_accuracy * 100:.2f}%")
+print("Mean Confusion Matrix:\n", mean_confusion_matrix)
+print(f"Total execution time: {execution_time:.2f} seconds")
+print()
+
+# Feature Importance
+result = permutation_importance(clf, X_test, y_test, n_repeats=10, n_jobs=-1)
 feature_importances = pd.Series(result.importances_mean, index=X.columns).sort_values(ascending=False)
 print("Top 10 Features by Importance:\n", feature_importances.head(10))
+print()
+
+# Same model with trimmed dataset (top 10 features)
+top_10_features = feature_importances.head(10).index
+trimmed_data = data[top_10_features]
+
+X = trimmed_data
+y = data['X65']
+print(trimmed_data.shape)
+
+# Initialize variables to store accuracies and confusion matrices for trimmed data
+trimmed_accuracies = []
+trimmed_confusion_matrices = []
+
+# Start the timer for trimmed data
+start_time_trimmed = time.time()
+
+# Perform 10 iterations for trimmed data
+for _ in range(10):
+    # Train-Test Split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7)
+
+    # Model Training
+    clf = HistGradientBoostingClassifier()
+    clf.fit(X_train, y_train)
+
+    # Make Predictions
+    y_pred = clf.predict(X_test)
+
+    # Calculate accuracy and confusion matrix on the test set
+    accuracy = accuracy_score(y_test, y_pred)
+    trimmed_accuracies.append(accuracy)
+    trimmed_confusion_matrices.append(confusion_matrix(y_test, y_pred))
+
+# End the timer for trimmed data
+end_time_trimmed = time.time()
+
+# Calculate mean and standard deviation of accuracies for trimmed data
+mean_accuracy_trimmed = np.mean(trimmed_accuracies)
+std_accuracy_trimmed = np.std(trimmed_accuracies)
+
+# Calculate mean confusion matrix for trimmed data
+mean_confusion_matrix_trimmed = np.mean(trimmed_confusion_matrices, axis=0)
+
+# Calculate total execution time for trimmed data
+execution_time_trimmed = end_time_trimmed - start_time_trimmed
+
+# Print results for trimmed data
+print(f"Mean accuracy (trimmed data): {mean_accuracy_trimmed * 100:.2f}%")
+print(f"Standard deviation of accuracy (trimmed data): {std_accuracy_trimmed * 100:.2f}%")
+print("Mean Confusion Matrix (trimmed data):\n", mean_confusion_matrix_trimmed)
+print(f"Total execution time (trimmed data): {execution_time_trimmed:.2f} seconds")

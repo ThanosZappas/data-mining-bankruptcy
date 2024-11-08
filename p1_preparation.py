@@ -10,6 +10,7 @@ from sklearn.feature_selection import VarianceThreshold
 # Load data
 data = pd.read_csv('training_companydata.csv', na_values=['?'])
 print(data.shape)
+print(data.head)
 
 # Scale the Dataset
 # Fill missing values temporarily to scale; use mean or median if needed
@@ -80,7 +81,7 @@ print("Classification Report:\n", classification_report(y_test, y_pred))
 
 # Step 7: Feature Importance
 # Calculate permutation importance on the test set
-result = permutation_importance(clf, X_test, y_test, n_repeats=10, random_state=42, n_jobs=-1)
+result = permutation_importance(clf, X_test, y_test, n_repeats=10, n_jobs=-1)
 
 # Extract feature importances and sort
 feature_importances = pd.Series(result.importances_mean, index=X.columns).sort_values(ascending=False)
