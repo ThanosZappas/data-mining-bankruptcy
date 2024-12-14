@@ -1,8 +1,13 @@
 import pandas as pd
 import numpy as np
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.inspection import permutation_importance
+
+# Load the model
+model_path = 'models/Top10_Features_HistGradientBoostingClassifier.pkl'
+model = joblib.load(model_path)
 
 # Load Data
 data = pd.read_csv('updated_training_companydata.csv')
@@ -46,4 +51,4 @@ ranking_df = ranking_df.sort_values(by='Bankruptcy_Probability', ascending=False
 
 # Display top 10 businesses with the highest risk
 print("Top 50 Businesses with Highest Bankruptcy Risk:")
-print(ranking_df.head(100))
+print(ranking_df.head(50))
