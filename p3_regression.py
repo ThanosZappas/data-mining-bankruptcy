@@ -11,7 +11,6 @@ top_10_features = ['X27', 'X11', 'X34', 'X46', 'X9', 'X58', 'X5', 'X6', 'X47', '
 HistGradientBoostingClassifier_Top63_Features = 'models/HistGradientBoostingClassifier_Top63_Features.pkl'
 unused_features = ['X21','X37','X65']
 
-
 def preparation(features: Any = 'top63'):
     def get_data(features):
         if features == 'top10':

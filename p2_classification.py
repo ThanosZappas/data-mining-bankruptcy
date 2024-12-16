@@ -7,7 +7,6 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.inspection import permutation_importance
 import time
 
-
 def variable_initialization():
     # Initialize variables to store accuracies and confusion matrices
     accuracies = []

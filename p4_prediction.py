@@ -40,7 +40,6 @@ def preparation(features : Any = 'top63'):
         else:
             model = joblib.load(HistGradientBoostingClassifier_Top63_Features)
         return model
-    
     return get_data(features), get_model(features)
 
 # Print the number of companies predicted to go bankrupt
@@ -50,11 +49,9 @@ def print_prediction_result(predictions, data):
     print()
     print(number_of_bankruptcies, "out of ", number_of_companies, " companies are predicted to go bankrupt.\n")
 
-
 def main():
     data, model = preparation('top10')
     predictions = get_predictions(data, model)
     print_prediction_result(predictions, data)
 
 main()
-
