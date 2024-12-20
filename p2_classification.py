@@ -84,7 +84,7 @@ def print_top_features(feature_importances_list, X, number_of_features):
 def main():
     print()
 
-    data = pd.read_csv('updated_training_companydata.csv')
+    data = pd.read_csv('data/updated_training_companydata.csv')
     X = data.drop(columns=['X65'])
     y = data['X65']
     model = HistGradientBoostingClassifier(max_depth=10, early_stopping=False)

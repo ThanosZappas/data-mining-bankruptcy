@@ -26,7 +26,7 @@ def preprocess_data(data):
 
 def main():
     # Load data
-    data = pd.read_csv('training_companydata.csv', na_values=['?'])
+    data = pd.read_csv('data/training_companydata.csv', na_values=['?'])
     print()
     print(data.shape)
     print("Initial columns: ", data.columns)
@@ -34,6 +34,6 @@ def main():
     print()
     print(data.shape)
     print("Remaining columns: ", data.columns)
-    data.to_csv('updated_training_companydata.csv', index=False)
+    data.to_csv('data/updated_training_companydata.csv', index=False)
 
 main()

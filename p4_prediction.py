@@ -5,11 +5,12 @@ from typing import Any
 
 HistGradientBoostingClassifier_Top10_Features = 'models/HistGradientBoostingClassifier_Top10_Features.pkl'
 top_10_features = ['X27', 'X11', 'X34', 'X46', 'X9', 'X58', 'X5', 'X6', 'X47', 'X13']
+column_names = [f'X{i}' for i in range(1, 65)]
 
 HistGradientBoostingClassifier_Top63_Features = 'models/HistGradientBoostingClassifier_Top63_Features.pkl'
 unused_features = ['X21','X37','X65']
 
-dataset_file = 'training_companydata.csv'
+dataset_file = 'data/test_unlabeled.csv'
 
 # Save the predictions to a CSV file
 def save_predictions(predictions):
@@ -27,10 +28,10 @@ def get_predictions(data, model):
 def preparation(features : Any = 'top63'):
     def get_data(features):
         if features == 'top10':
-            data = pd.read_csv(dataset_file, na_values=['?'])
+            data = pd.read_csv(dataset_file, na_values=['?'], header=None, names=column_names)
             data = data.loc[:, top_10_features]
         else:
-            data = pd.read_csv(dataset_file, na_values=['?'])
+            data = pd.read_csv(dataset_file, na_values=['?'], header=None, names=column_names)
             data = data.drop(columns=unused_features)
         return data
 

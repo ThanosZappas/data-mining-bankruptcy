@@ -2,7 +2,7 @@ import pandas as pd
 import joblib
 from typing import Any
 
-dataset_file = 'training_companydata.csv'
+dataset_file = 'data/test_unlabeled.csv'
 target_column = ['X65'] # Bankruptcy indicator
 
 HistGradientBoostingClassifier_Top10_Features = 'models/HistGradientBoostingClassifier_Top10_Features.pkl'
