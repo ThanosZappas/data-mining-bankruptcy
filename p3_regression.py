@@ -2,7 +2,7 @@ import pandas as pd
 import joblib
 from typing import Any
 
-dataset_file = 'data/test_unlabeled.csv'
+dataset_file = 'data/updated_training_companydata.csv'
 target_column = ['X65'] # Bankruptcy indicator
 
 HistGradientBoostingClassifier_Top10_Features = 'models/HistGradientBoostingClassifier_Top10_Features.pkl'
@@ -18,7 +18,7 @@ def preparation(features: Any = 'top63'):
             data = data.loc[:, top_10_features]
         else:
             data = pd.read_csv(dataset_file, na_values=['?'])
-            data = data.drop(columns=unused_features)
+            data = data.drop(columns=['X65'])
         return data
 
     def get_model(features):
