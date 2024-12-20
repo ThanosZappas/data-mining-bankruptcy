@@ -90,7 +90,7 @@ def main():
     model = HistGradientBoostingClassifier(max_depth=10, early_stopping=False)
 
     start_time = time.time()
-    accuracies, confusion_matrices, classification_reports, f1_scores, feature_importances_list = train_predict(X, y, model, iterations=3, train_size= 0.8, permutation_importance_flag=True)
+    accuracies, confusion_matrices, classification_reports, f1_scores, feature_importances_list = train_predict(X, y, model, iterations=100, train_size= 0.8, permutation_importance_flag=True)
     end_time = time.time()
 
     # save_model(model, "models/HistGradientBoostingClassifier_Top63_Features.pkl")
@@ -104,7 +104,7 @@ def main():
 
 
     start_time = time.time()
-    accuracies, confusion_matrices, classification_reports, f1_scores, _ = train_predict(X, y, model, iterations=3, train_size= 0.8, permutation_importance_flag=False)
+    accuracies, confusion_matrices, classification_reports, f1_scores, _ = train_predict(X, y, model, iterations=100, train_size= 0.8, permutation_importance_flag=False)
     end_time = time.time()
 
     # save_model(model, "models/HistGradientBoostingClassifier_Top10_Features.pkl")
