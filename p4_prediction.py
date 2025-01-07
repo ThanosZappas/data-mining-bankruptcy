@@ -7,7 +7,7 @@ from utils import preparation
 # Save the predictions to a CSV file
 def save_predictions(predictions):
     predictions_file_path = 'prediction_files/predictions.csv'
-    pd.DataFrame(predictions).to_csv(predictions_file_path, index=False)
+    pd.DataFrame(predictions).to_csv(predictions_file_path, index=False,header=False)
     print(f"Predictions saved to {predictions_file_path}")
 
 
